@@ -27,7 +27,7 @@ async function analyzeStartup() {
       reasons.push("CMS Platform Architecture: ₦400,000");
       document.getElementById('techLevel').innerText = "Standard CMS";
     } else {
-      worth += 1600000;
+      worth += 800000;
       reasons.push("Custom Engineering/React: ₦800,000");
       document.getElementById('techLevel').innerText = "High-End Custom";
     }
