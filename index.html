@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StartupValue | Nigeria's Leading Asset Estimator</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-glow"></div>
+    
+    <div class="container">
+        <main class="content-wrapper">
+            <nav>
+                <div class="logo">StartupValue<span>.ng</span></div>
+                <div class="badge">BETA 2.0</div>
+            </nav>
+
+            <section class="hero">
+                <h1>Know Your Startup's <br><span class="gradient-text">Market Worth.</span></h1>
+                <p>Our algorithm analyzes your tech stack, payment gateways, and SEO footprint to estimate your digital replacement value in Naira.</p>
+            </section>
+
+            <div class="search-container">
+                <div class="input-group">
+                    <input type="text" id="urlInput" placeholder="https://example-startup.com.ng">
+                    <button onclick="analyzeStartup()" id="mainBtn">Analyze Website</button>
+                </div>
+                <p class="hint">Enter a full URL including https://</p>
+            </div>
+
+            <section class="info-section">
+                <div class="info-card">
+                    <h4>🔍 Technical Audit</h4>
+                    <p>We scan the DOM for frameworks like React, Next.js, and Vue.</p>
+                </div>
+                <div class="info-card">
+                    <h4>💳 Fintech Check</h4>
+                    <p>Detection of Paystack, Flutterwave, and other API integrations.</p>
+                </div>
+                <div class="info-card">
+                    <h4>📈 SEO & Speed</h4>
+                    <p>Valuation includes metadata quality and mobile responsiveness.</p>
+                </div>
+            </section>
+
+            <div id="loader" class="hidden">
+                <div class="spinner"></div>
+                <p id="loaderText">Crawling source code...</p>
+            </div>
+
+            <div id="resultCard" class="hidden">
+                <div class="card-header">
+                    <span>Estimated Value</span>
+                    <h2 id="totalValue">₦0</h2>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <small>Security Rank</small>
+                        <p id="securityRank">Standard</p>
+                    </div>
+                    <div class="stat-item">
+                        <small>Tech Level</small>
+                        <p id="techLevel">Modern</p>
+                    </div>
+                </div>
+
+                <div class="breakdown">
+                    <h3>Valuation Factors</h3>
+                    <ul id="breakdownList"></ul>
+                </div>
+
+                <div class="actions">
+                    <button class="btn-secondary" onclick="window.print()">Save Report</button>
+                    <button class="btn-share" onclick="shareResult()">Share on X</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 StartupValue Nigeria. Data based on average market dev rates.</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
