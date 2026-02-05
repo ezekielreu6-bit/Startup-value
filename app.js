@@ -64,6 +64,6 @@ function displayResults(total, reasons) {
 
 function shareResult() {
   const val = document.getElementById('totalValue').innerText;
-  const tweet = `My startup website is worth ${val}! Estimate yours at StartupValue.ng 🚀 #TechNigeria`;
+  const tweet = `My startup website is worth ${val}! Estimate yours at StartupValue-ng.vercel.app 🚀 #TechNigeria`;
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`, '_blank');
 }
