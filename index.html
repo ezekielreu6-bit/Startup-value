@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>StartupValue | Nigeria's Asset Estimator</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -19,73 +19,57 @@
             </nav>
 
             <section class="hero">
-                <h1>Know Your Startup's <br><span class="gradient-text">Market Worth.</span></h1>
-                <p>Analyze your tech stack, payment gateways, and SEO footprint to estimate your digital replacement value in Naira.</p>
+                <h1>Value Your <span class="gradient-text">Startup.</span></h1>
+                <p>Estimate the digital worth of any Nigerian platform in seconds.</p>
             </section>
 
             <div class="search-container">
                 <div class="input-group">
-                    <input type="text" id="urlInput" placeholder="https://example-startup.com.ng">
+                    <input type="url" id="urlInput" placeholder="Paste link here...">
                     <button onclick="analyzeStartup()" id="mainBtn">
-                        <span class="btn-text">Analyze Website</span>
+                        <span class="btn-text">Analyze</span>
                         <div class="btn-loader hidden">
                             <div class="mini-spinner"></div>
-                            <span>Scanning...</span>
                         </div>
                     </button>
                 </div>
-                <p class="hint">Enter a full URL including https://</p>
             </div>
-
-            <section class="info-section">
-                <div class="info-card">
-                    <h4>🔍 Technical Audit</h4>
-                    <p>Detects frameworks like React, Next.js, and custom build complexity.</p>
-                </div>
-                <div class="info-card">
-                    <h4>💳 Fintech Check</h4>
-                    <p>Identifies Paystack, Flutterwave, and other local API integrations.</p>
-                </div>
-                <div class="info-card">
-                    <h4>📈 Market Presence</h4>
-                    <p>Estimates value based on current Nigerian developer hiring rates.</p>
-                </div>
-            </section>
 
             <div id="resultCard" class="hidden">
                 <div id="captureArea">
-                    <div class="card-header">
-                        <span class="cert-label">Valuation Certificate</span>
-                        <h2 id="totalValue">₦0</h2>
-                        <p id="targetUrlDisplay"></p>
-                    </div>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <small>Security Rank</small>
-                            <p id="securityRank">Standard</p>
+                    <div class="cert-border">
+                        <span class="cert-label">Official Valuation</span>
+                        <div class="amount-container">
+                             <h2 id="totalValue">₦0</h2>
                         </div>
-                        <div class="stat-item">
-                            <small>Tech Level</small>
-                            <p id="techLevel">Modern</p>
+                        <p id="targetUrlDisplay">website.com</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <small>TECH STACK</small>
+                                <p id="techLevel">-</p>
+                            </div>
+                            <div class="stat-item">
+                                <small>GATEWAY</small>
+                                <p id="securityRank">-</p>
+                            </div>
+                        </div>
+                        <div class="cert-footer">
+                            <span>VERIFIED BY STARTUPVALUE.NG</span>
                         </div>
                     </div>
-
-                    <div class="breakdown-preview">
-                        <ul id="breakdownList"></ul>
-                    </div>
-                    <div class="watermark">Verified by StartupValue.ng</div>
                 </div>
 
                 <div class="actions">
-                    <button class="btn-secondary" onclick="downloadImage()">📸 Save as Image</button>
-                    <button class="btn-share" onclick="shareResult()">Share on X</button>
+                    <button class="btn-download" onclick="downloadImage()">Download Certificate</button>
+                    <button class="btn-share" onclick="shareResult()">Share to X</button>
                 </div>
+                <p class="share-hint">Tip: Download the image first, then tap Share to post it!</p>
             </div>
         </main>
 
         <footer>
-            <p>&copy; 2026 StartupValue Nigeria. Based on 2026 Dev Market Rates.</p>
+            <p>&copy; 2026 StartupValue Nigeria.</p>
         </footer>
     </div>
     <script src="app.js"></script>
