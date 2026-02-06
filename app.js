@@ -1,58 +1,52 @@
 async function analyzeStartup() {
   const btn = document.getElementById('mainBtn');
-  const btnText = btn.querySelector('.btn-text');
   const btnLoader = btn.querySelector('.btn-loader');
-  const resultCard = document.getElementById('resultCard');
+  const btnText = btn.querySelector('.btn-text');
   const input = document.getElementById('urlInput');
+  const resultCard = document.getElementById('resultCard');
   
   let url = input.value.trim();
-  if (!url) return alert("Please enter a URL!");
+  if (!url) return alert("Enter a URL");
   if (!url.startsWith('http')) url = 'https://' + url;
   
-
+  
   btn.disabled = true;
   btnText.classList.add('hidden');
   btnLoader.classList.remove('hidden');
   resultCard.classList.add('hidden');
   
   try {
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&t=${Date.now()}`;
-    const response = await fetch(proxyUrl);
+    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}&t=${Date.now()}`);
     const data = await response.json();
     const html = data.contents ? data.contents.toLowerCase() : "";
     
     let worth = 0;
-    let reasons = [];
-    document.getElementById('targetUrlDisplay').innerText = url.replace('https://', '');
+    document.getElementById('targetUrlDisplay').innerText = url.replace('https://', '').replace('www.', '');
     
-  
-    if (html.includes('wp-content') || html.includes('wordpress') || html.includes('wix.com')) {
-      worth += 450000;
-      reasons.push("CMS Platform Base: ₦450k");
-      document.getElementById('techLevel').innerText = "Standard CMS";
+    
+    if (html.includes('wp-content')) {
+      worth = 450000;
+      document.getElementById('techLevel').innerText = "WORDPRESS";
     } else {
-      worth += 1000000;
-      reasons.push("Custom Framework (React/Next): ₦1.0M");
-      document.getElementById('techLevel').innerText = "High-End Custom";
+      worth = 1850000;
+      document.getElementById('techLevel').innerText = "CUSTOM JS";
     }
     
-    
-    const gateways = ['paystack', 'flutterwave', 'monnify', 'korapay'];
-    if (gateways.some(g => html.includes(g))) {
+    if (html.includes('paystack') || html.includes('flutterwave')) {
       worth += 400000;
-      reasons.push("Fintech Integration: ₦400k");
-      document.getElementById('securityRank').innerText = "PCI-DSS Ready";
+      document.getElementById('securityRank').innerText = "FINTECH";
+    } else {
+      document.getElementById('securityRank').innerText = "STANDARD";
     }
     
+    document.getElementById('totalValue').innerText = `₦${Math.floor(worth).toLocaleString()}`;
+    resultCard.classList.remove('hidden');
     
-    if (html.includes('tailwind') || html.includes('jakarta') || html.includes('framer')) {
-      worth += 300000;
-      reasons.push("Premium UI/UX System: ₦300k");
-    }
     
-    displayResults(worth, reasons);
+    resultCard.scrollIntoView({ behavior: 'smooth' });
+    
   } catch (e) {
-    alert("Verification failed. The target site may be blocking crawlers.");
+    alert("Scrutiny failed. Try a different site.");
   } finally {
     btn.disabled = false;
     btnText.classList.remove('hidden');
@@ -60,31 +54,28 @@ async function analyzeStartup() {
   }
 }
 
-function displayResults(total, reasons) {
-  document.getElementById('totalValue').innerText = `₦${Math.floor(total).toLocaleString()}`;
-  const list = document.getElementById('breakdownList');
-  list.innerHTML = reasons.map(r => `<li>✅ ${r}</li>`).join('');
-  document.getElementById('resultCard').classList.remove('hidden');
-}
-
-
 async function downloadImage() {
-  const captureArea = document.getElementById('captureArea');
-  const canvas = await html2canvas(captureArea, {
-    backgroundColor: '#0d1117',
-    scale: 2,
-    logging: false
+  const area = document.getElementById('captureArea');
+  const canvas = await html2canvas(area, {
+    scale: 2, 
+    backgroundColor: "#000000"
   });
   
   const image = canvas.toDataURL("image/png");
   const link = document.createElement('a');
-  link.download = `StartupWorth-${Date.now()}.png`;
+  link.download = `MyStartupWorth.png`;
   link.href = image;
   link.click();
 }
 
 function shareResult() {
   const val = document.getElementById('totalValue').innerText;
-  const tweet = `My startup is worth ${val}! Check yours at StartupValue-ng.vercel.app 🚀 #TechNigeria`;
-  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`, '_blank');
+  const urlName = document.getElementById('targetUrlDisplay').innerText;
+  
+  
+  const text = `My startup (${urlName}) is valued at ${val}! 🚀 
+
+Check yours at StartupValue-ng.vercel.app 🇳🇬 #TechNigeria #BuildInPublic`;
+  
+  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
 }
