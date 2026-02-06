@@ -4,69 +4,37 @@
     --card-bg: #11141a;
     --border: rgba(255, 255, 255, 0.1);
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; background: var(--bg); font-family: 'Plus Jakarta Sans', sans-serif; color: white; overflow-x: hidden; }
-
 .container { display: flex; flex-direction: column; min-height: 100vh; max-width: 500px; margin: 0 auto; padding: 0 15px; }
 .content-wrapper { flex: 1 0 auto; padding: 30px 0; }
-
-
 footer { padding: 20px; text-align: center; color: #555; font-size: 0.75rem; }
-
 nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
 .logo { font-weight: 800; font-size: 1.2rem; }
 .logo span { color: var(--primary); }
 .hero { text-align: center; margin-bottom: 30px; }
 .hero h1 { font-size: 2.5rem; letter-spacing: -1px; }
 .gradient-text { color: var(--primary); }
-
-
 .search-container { background: var(--card-bg); padding: 15px; border-radius: 20px; border: 1px solid var(--border); }
 .input-group { display: flex; gap: 8px; }
 input { flex: 1; background: #000; border: 1px solid #222; padding: 14px; border-radius: 12px; color: white; font-size: 0.95rem; width: 60%; }
-#mainBtn { background: var(--primary); color: #000; border: none; padding: 0 20px; border-radius: 12px; font-weight: 700; cursor: pointer; }
-
-
-#captureArea {
-    background: #000;
-    padding: 20px;
-    border-radius: 0px; /* Square look for better social cropping */
-    margin: 30px 0 15px 0;
-}
-
-.cert-border {
-    border: 2px solid var(--primary);
-    padding: 40px 20px;
-    text-align: center;
-    background: linear-gradient(180deg, #0a0c10 0%, #000 100%);
-}
-
-.cert-label { font-size: 0.7rem; letter-spacing: 3px; color: var(--primary); text-transform: uppercase; }
-
-
-.amount-container { margin: 20px 0; }
-#totalValue { 
-    font-size: clamp(2.5rem, 8vw, 4rem); 
-    color: white; 
-    font-weight: 800;
-}
-
-#targetUrlDisplay { color: #555; font-size: 0.9rem; margin-bottom: 30px; }
-
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid #222; padding-top: 20px; }
-.stat-item small { font-size: 0.6rem; color: #555; display: block; margin-bottom: 5px; }
-.stat-item p { font-size: 0.85rem; font-weight: 600; }
-
-.cert-footer { margin-top: 40px; font-size: 0.6rem; color: #333; letter-spacing: 2px; }
-
-
+#mainBtn { background: var(--primary); color: #000; border: none; padding: 0 20px; border-radius: 12px; font-weight: 700; cursor: pointer; min-width: 100px; }
+#captureArea { background: #000; padding: 15px; margin: 30px 0 15px 0; }
+.cert-border { border: 2px solid var(--primary); padding: 30px 15px; text-align: center; background: #000; }
+.cert-label { font-size: 0.6rem; letter-spacing: 3px; color: var(--primary); text-transform: uppercase; }
+#totalValue { font-size: clamp(2rem, 8vw, 3.5rem); color: white; font-weight: 800; margin: 15px 0; }
+#targetUrlDisplay { color: #555; font-size: 0.8rem; margin-bottom: 20px; word-break: break-all; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid #222; padding-top: 15px; margin-bottom: 15px; }
+.stat-item small { font-size: 0.5rem; color: #555; display: block; margin-bottom: 3px; }
+.stat-item p { font-size: 0.75rem; font-weight: 600; }
+.breakdown-box { text-align: left; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; }
+.breakdown-box li { list-style: none; font-size: 0.7rem; color: #888; margin-bottom: 4px; }
+.cert-footer { margin-top: 30px; font-size: 0.5rem; color: #333; letter-spacing: 2px; }
 .actions { display: flex; flex-direction: column; gap: 10px; }
 .btn-download, .btn-share { padding: 16px; border-radius: 12px; font-weight: 700; border: none; cursor: pointer; font-size: 1rem; }
 .btn-download { background: white; color: black; }
 .btn-share { background: #1DA1F2; color: white; }
-.share-hint { font-size: 0.7rem; color: #555; text-align: center; margin-top: 10px; }
-
 .hidden { display: none !important; }
-.mini-spinner { width: 20px; height: 20px; border: 3px solid rgba(0,0,0,0.1); border-top: 3px solid #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
+.mini-spinner { width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.1); border-top: 2px solid #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+.background-glow { position: fixed; top: 0; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,209,126,0.1) 0%, transparent 70%); z-index: -1; pointer-events: none; }
