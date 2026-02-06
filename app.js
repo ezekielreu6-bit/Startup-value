@@ -5,9 +5,14 @@ async function analyzeStartup() {
   const input = document.getElementById('urlInput');
   const resultCard = document.getElementById('resultCard');
   
+
   let url = input.value.trim();
-  if (!url) return alert("Enter a URL");
-  if (!url.startsWith('http')) url = 'https://' + url;
+  
+  
+  if (!url) return alert("Please enter a website link.");
+  if (!url.startsWith('http')) {
+    url = 'https://' + url;
+  }
   
   
   btn.disabled = true;
@@ -16,38 +21,65 @@ async function analyzeStartup() {
   resultCard.classList.add('hidden');
   
   try {
-    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}&t=${Date.now()}`);
+    
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}&timestamp=${Date.now()}`;
+    
+    const response = await fetch(proxyUrl);
+    if (!response.ok) throw new Error("Could not connect to the proxy.");
+    
     const data = await response.json();
-    const html = data.contents ? data.contents.toLowerCase() : "";
     
+    
+    if (!data.contents) {
+      throw new Error("This website is blocking our analysis. Try a different URL.");
+    }
+    
+    const html = data.contents.toLowerCase();
     let worth = 0;
-    document.getElementById('targetUrlDisplay').innerText = url.replace('https://', '').replace('www.', '');
     
     
-    if (html.includes('wp-content')) {
-      worth = 450000;
-      document.getElementById('techLevel').innerText = "WORDPRESS";
+    document.getElementById('targetUrlDisplay').innerText = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+  
+    const isCMS = html.includes('wp-content') || html.includes('wordpress') || html.includes('wix.com') || html.includes('elementor');
+    
+    if (isCMS) {
+      worth = 450000; 
+      document.getElementById('techLevel').innerText = "PRO CMS";
     } else {
-      worth = 1850000;
+      worth = 1850000; 
       document.getElementById('techLevel').innerText = "CUSTOM JS";
     }
     
-    if (html.includes('paystack') || html.includes('flutterwave')) {
-      worth += 400000;
-      document.getElementById('securityRank').innerText = "FINTECH";
+    
+    const hasPaystack = html.includes('paystack');
+    const hasFlutterwave = html.includes('flutterwave');
+    const hasMonnify = html.includes('monnify');
+    
+    if (hasPaystack || hasFlutterwave || hasMonnify) {
+      worth += 500000;
+      document.getElementById('securityRank').innerText = "FINTECH SECURE";
     } else {
       document.getElementById('securityRank').innerText = "STANDARD";
     }
     
+    
+    if (html.includes('tailwind') || html.includes('framer') || html.includes('inter-bold')) {
+      worth += 350000;
+    }
+    
+    
     document.getElementById('totalValue').innerText = `₦${Math.floor(worth).toLocaleString()}`;
+    
     resultCard.classList.remove('hidden');
     
     
-    resultCard.scrollIntoView({ behavior: 'smooth' });
+    resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
     
-  } catch (e) {
-    alert("Scrutiny failed. Try a different site.");
+  } catch (error) {
+    console.error("Scraping Error:", error);
+    alert(error.message || "An error occurred while analyzing the site.");
   } finally {
+  
     btn.disabled = false;
     btnText.classList.remove('hidden');
     btnLoader.classList.add('hidden');
@@ -56,26 +88,37 @@ async function analyzeStartup() {
 
 async function downloadImage() {
   const area = document.getElementById('captureArea');
-  const canvas = await html2canvas(area, {
-    scale: 2, 
-    backgroundColor: "#000000"
-  });
+  const downloadBtn = event.currentTarget;
   
-  const image = canvas.toDataURL("image/png");
-  const link = document.createElement('a');
-  link.download = `MyStartupWorth.png`;
-  link.href = image;
-  link.click();
+  downloadBtn.innerText = "Generating...";
+  
+  try {
+    const canvas = await html2canvas(area, {
+      scale: 2, 
+      backgroundColor: "#0a0c10",
+      useCORS: true,
+      logging: false
+    });
+    
+    const image = canvas.toDataURL("image/png");
+    const link = document.createElement('a');
+    link.download = `StartupWorth-${Date.now()}.png`;
+    link.href = image;
+    link.click();
+  } catch (err) {
+    alert("Could not generate image. Please screenshot manually.");
+  } finally {
+    downloadBtn.innerText = "Download Certificate";
+  }
 }
+
 
 function shareResult() {
   const val = document.getElementById('totalValue').innerText;
   const urlName = document.getElementById('targetUrlDisplay').innerText;
   
+  const tweetText = `My startup (${urlName}) has been valued at ${val}! 🚀\n\nCheck your startup's worth at StartupValue-ng.vercel.app 🇳🇬\n\n#TechNigeria #BuildInPublic`;
   
-  const text = `My startup (${urlName}) is valued at ${val}! 🚀 
-
-Check yours at StartupValue-ng.vercel.app 🇳🇬 #TechNigeria #BuildInPublic`;
-  
-  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+  window.open(twitterUrl, '_blank');
 }
