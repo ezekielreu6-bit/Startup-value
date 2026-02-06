@@ -1,15 +1,18 @@
 async function analyzeStartup() {
-  let url = document.getElementById('urlInput').value.trim();
   const btn = document.getElementById('mainBtn');
+  const btnText = btn.querySelector('.btn-text');
+  const btnLoader = btn.querySelector('.btn-loader');
   const resultCard = document.getElementById('resultCard');
-  const loader = document.getElementById('loader');
+  const input = document.getElementById('urlInput');
   
+  let url = input.value.trim();
   if (!url) return alert("Please enter a URL!");
   if (!url.startsWith('http')) url = 'https://' + url;
   
-  
+
   btn.disabled = true;
-  loader.classList.remove('hidden');
+  btnText.classList.add('hidden');
+  btnLoader.classList.remove('hidden');
   resultCard.classList.add('hidden');
   
   try {
@@ -20,38 +23,40 @@ async function analyzeStartup() {
     
     let worth = 0;
     let reasons = [];
+    document.getElementById('targetUrlDisplay').innerText = url.replace('https://', '');
     
-    
-    if (html.includes('wp-content') || html.includes('wordpress')) {
-      worth += 400000;
-      reasons.push("CMS Platform Architecture: ₦400,000");
+  
+    if (html.includes('wp-content') || html.includes('wordpress') || html.includes('wix.com')) {
+      worth += 450000;
+      reasons.push("CMS Platform Base: ₦450k");
       document.getElementById('techLevel').innerText = "Standard CMS";
     } else {
-      worth += 800000;
-      reasons.push("Custom Engineering/React: ₦800,000");
+      worth += 1000000;
+      reasons.push("Custom Framework (React/Next): ₦1.0M");
       document.getElementById('techLevel').innerText = "High-End Custom";
     }
     
     
     const gateways = ['paystack', 'flutterwave', 'monnify', 'korapay'];
     if (gateways.some(g => html.includes(g))) {
-      worth += 450000;
-      reasons.push("Naija Payment Integration: ₦450,000");
-      document.getElementById('securityRank').innerText = "Fintech Secure";
+      worth += 400000;
+      reasons.push("Fintech Integration: ₦400k");
+      document.getElementById('securityRank').innerText = "PCI-DSS Ready";
     }
     
     
-    if (html.includes('tailwind') || html.includes('jakarta') || html.includes('flex')) {
+    if (html.includes('tailwind') || html.includes('jakarta') || html.includes('framer')) {
       worth += 300000;
-      reasons.push("Premium Design Framework: ₦300,000");
+      reasons.push("Premium UI/UX System: ₦300k");
     }
     
     displayResults(worth, reasons);
   } catch (e) {
-    alert("Failed to scan. The site might be blocking our crawler.");
+    alert("Verification failed. The target site may be blocking crawlers.");
   } finally {
-    loader.classList.add('hidden');
     btn.disabled = false;
+    btnText.classList.remove('hidden');
+    btnLoader.classList.add('hidden');
   }
 }
 
@@ -62,8 +67,24 @@ function displayResults(total, reasons) {
   document.getElementById('resultCard').classList.remove('hidden');
 }
 
+
+async function downloadImage() {
+  const captureArea = document.getElementById('captureArea');
+  const canvas = await html2canvas(captureArea, {
+    backgroundColor: '#0d1117',
+    scale: 2,
+    logging: false
+  });
+  
+  const image = canvas.toDataURL("image/png");
+  const link = document.createElement('a');
+  link.download = `StartupWorth-${Date.now()}.png`;
+  link.href = image;
+  link.click();
+}
+
 function shareResult() {
   const val = document.getElementById('totalValue').innerText;
-  const tweet = `My startup website is worth ${val}! Estimate yours at StartupValue-ng.vercel.app 🚀 #TechNigeria`;
+  const tweet = `My startup is worth ${val}! Check yours at StartupValue-ng.vercel.app 🚀 #TechNigeria`;
   window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`, '_blank');
 }
