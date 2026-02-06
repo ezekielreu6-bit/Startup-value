@@ -10,12 +10,11 @@
 </head>
 <body>
     <div class="background-glow"></div>
-    
     <div class="container">
         <main class="content-wrapper">
             <nav>
                 <div class="logo">StartupValue<span>.ng</span></div>
-                <div class="badge">BETA 2.0</div>
+                <div class="badge">LIVE 2026</div>
             </nav>
 
             <section class="hero">
@@ -25,10 +24,10 @@
 
             <div class="search-container">
                 <div class="input-group">
-                    <input type="url" id="urlInput" placeholder="Paste link here...">
+                    <input type="text" id="urlInput" placeholder="Paste link (e.g. paystack.com)">
                     <button onclick="analyzeStartup()" id="mainBtn">
                         <span class="btn-text">Analyze</span>
-                        <div class="btn-loader hidden">
+                        <div class="btn-loader hidden" id="loaderContainer">
                             <div class="mini-spinner"></div>
                         </div>
                     </button>
@@ -42,7 +41,7 @@
                         <div class="amount-container">
                              <h2 id="totalValue">₦0</h2>
                         </div>
-                        <p id="targetUrlDisplay">website.com</p>
+                        <p id="targetUrlDisplay"></p>
                         
                         <div class="stats-grid">
                             <div class="stat-item">
@@ -50,10 +49,15 @@
                                 <p id="techLevel">-</p>
                             </div>
                             <div class="stat-item">
-                                <small>GATEWAY</small>
+                                <small>SECURITY</small>
                                 <p id="securityRank">-</p>
                             </div>
                         </div>
+
+                        <div class="breakdown-box">
+                            <ul id="breakdownList"></ul>
+                        </div>
+
                         <div class="cert-footer">
                             <span>VERIFIED BY STARTUPVALUE.NG</span>
                         </div>
@@ -64,7 +68,6 @@
                     <button class="btn-download" onclick="downloadImage()">Download Certificate</button>
                     <button class="btn-share" onclick="shareResult()">Share to X</button>
                 </div>
-                <p class="share-hint">Tip: Download the image first, then tap Share to post it!</p>
             </div>
         </main>
 
@@ -72,6 +75,7 @@
             <p>&copy; 2026 StartupValue Nigeria.</p>
         </footer>
     </div>
+    
     <script src="app.js"></script>
 </body>
 </html>
